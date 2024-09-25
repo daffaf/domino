@@ -19,6 +19,9 @@ function App() {
     { title: "Reset", function: () => { setData([...dominoes]) } },
   ]
 
+  const handleHiddenBtn = () => {
+    setIsFalse(!isFalse)
+  }
   const removeByTotal = () => {
     const result = removeDataByTotal([...data], totalNumber)
     setData(result)
@@ -47,7 +50,7 @@ function App() {
       )
     }
     return (
-      <div className='grid grid-cols-3 w-full gap-5'>
+      <div className='grid w-full grid-cols-3 gap-5'>
         {grid}
       </div>
     );
@@ -59,10 +62,16 @@ function App() {
     setDoubleNumber(countDoubleNumber(data))
   }, [data])
   return (
-    <section className='p-3 w-full flex flex-row h-screen items-center justify-center'>
-      <div className='space-y-5 flex flex-col w-1/2 h-fit justify-center  border p-3'>
-        <div className='font-semibold text-3xl'>DOMINOES</div>
-        <div className='p-3 bg-gray-100  rounded-md'>
+    <section className='flex flex-row items-center justify-center w-full h-screen p-3'>
+      <div className='flex flex-col justify-center w-1/2 p-3 space-y-5 border h-fit'>
+        <div className='text-3xl font-semibold'>DOMINOES</div>
+        <div className='gap-3 p-2 border rounded-md w-28' onClick={handleHiddenBtn}>
+          <div className={` flex flex-row items-center gap-3 px-3 border rounded-full cursor-pointer`}>
+            <div className={`w-5 h-5 bg-blue-500 rounded-full ${isFalse ? 'translate-x-12 duration-200' : 'translate-x-0 duration-200'}`} ></div>
+            <p className={`text-sm ${isFalse ? '-translate-x-7 duration-200' : 'translate-x-2 duration-200'}`}>{isFalse ? 'Card' : 'Text'}</p>
+          </div>
+        </div>
+        <div className='p-3 bg-gray-100 rounded-md'>
           <p className='font-semibold'>Source</p>
           <p>{JSON.stringify(dominoes)}</p>
         </div>
@@ -70,19 +79,20 @@ function App() {
           <p className='font-semibold'>Double Number</p>
           <p>{doubleNumber}</p>
         </div>
-        <div className='flex flex-row gap-3 justify-evenly w-full'>
+        <div className='flex flex-row w-full gap-3 justify-evenly'>
           {
             data.map((domino) => {
-              return (
-                <div className='border border-black w-fit p-3 rounded-md'>
-                  <p>{domino[0]}</p>
 
-                  <p>-</p>
-                  <p>{domino[1]}</p>
+              return (
+                <div className='p-3 border border-black rounded-md w-fit'>
+                  {isFalse ? renderDots(domino[0]) : domino[0]}
+                  {/* <p>{domino[0]}</p> */}
+                  <div className='w-full my-5 border-b-2 border-black'></div>
+                  <p>{isFalse ? renderDots(domino[1]) : domino[1]}</p>
                 </div>
-                // <div className='border p-3'>
+                // <div className='p-3 border'>
                 //   {renderDots(domino[0])}
-                //   <div className='border-b-2 w-full my-5 border-black'></div>
+                //   <div className='w-full my-5 border-b-2 border-black'></div>
                 //   {renderDots(domino[1])}
                 // </div>
               )
@@ -93,7 +103,7 @@ function App() {
           {
             button.map((button) => {
               return (
-                <button className='p-1 px-2 bg-blue-500 rounded-md text-white cursor-pointer' onClick={button.function}>{button.title}</button>
+                <button className='p-1 px-2 text-white bg-blue-500 rounded-md cursor-pointer' onClick={button.function}>{button.title}</button>
               )
             })
           }
@@ -102,12 +112,12 @@ function App() {
           <input
             type='number'
             name='input-number'
-            className='border rounded-md px-3 py-1 w-full'
+            className='w-full px-3 py-1 border rounded-md'
             onChange={(event) => setTotalNumber(parseInt(event.target.value))}
             value={totalNumber}
           />
           <button
-            className='p-1 px-2 bg-blue-500 rounded-md text-white'
+            className='p-1 px-2 text-white bg-blue-500 rounded-md'
             onClick={removeByTotal}
           >
             Remove
