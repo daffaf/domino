@@ -86,15 +86,9 @@ function App() {
               return (
                 <div className='p-3 border border-black rounded-md w-fit'>
                   {isFalse ? renderDots(domino[0]) : domino[0]}
-                  {/* <p>{domino[0]}</p> */}
                   <div className='w-full my-5 border-b-2 border-black'></div>
                   <p>{isFalse ? renderDots(domino[1]) : domino[1]}</p>
                 </div>
-                // <div className='p-3 border'>
-                //   {renderDots(domino[0])}
-                //   <div className='w-full my-5 border-b-2 border-black'></div>
-                //   {renderDots(domino[1])}
-                // </div>
               )
             })
           }
